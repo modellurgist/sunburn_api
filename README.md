@@ -1,6 +1,5 @@
 # Fastapi Project Template
 
-
 A FastAPI project template using Make, Docker Compose and Github Actions,
 that includes **SQLAlchemy**, **Alembic** and an integration test setup.
 

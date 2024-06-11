@@ -5,6 +5,7 @@ from starlette.responses import RedirectResponse
 from starlette.status import HTTP_201_CREATED
 
 from api.repository import Todo, TodoFilter, TodoRepository, create_todo_repository
+from api.models.sun_track import SunTrack
 
 app = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
 
@@ -13,6 +14,22 @@ app = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
 async def root():
     return RedirectResponse(app.docs_url)
 
+@app.get("/sun_track/{latitude}/{longitude}", response_model=SunTrack)
+def get_sun_track(latitude: str, longitude: str):
+    attributes = {
+        "latitude": latitude,
+        "longitude": longitude,
+        "timezone": "0.0",
+        "sunrise_time_utc": "0.0",
+        "sunset_time_utc": "0.0",
+        "sun_apparent_angle_at_noon": "0.0",
+        "sun_surface_angle_at_noon": "0.0",
+        "sun_intensity": "0.0",
+    }
+
+    sun_track = SunTrack(**attributes)
+
+    return sun_track
 
 @app.post("/create/{key}", status_code=HTTP_201_CREATED)
 def create(key: str, value: str, todo_repository: TodoRepository = Depends(create_todo_repository)):
